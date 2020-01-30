@@ -1,0 +1,7 @@
+INDEX VERSION 1.131
+C:\Users\sviluppo\Desktop\Eclipse\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\864706139.index
+\PrjPubblicabile\src
+C:\Users\sviluppo\Desktop\Eclipse\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\4249554522.index
+\Prj14_Biblioteca\src
+C:\Users\sviluppo\Desktop\Eclipse\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3590029180.index
+\prj01-maven-prova\src\main\java

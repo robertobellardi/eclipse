@@ -1,0 +1,20 @@
+package model;
+
+public class Agenda {
+
+	private int countLunedi=0;
+	private Impegno[] lunedì=new Impegno[10];
+	
+	public void definisci(Impegno nuovoImpegno) {
+		if(countLunedi<10) {
+			lunedi[countLunedi]=nuovoImpegno;
+			countLunedi++;
+		}
+		
+	}
+	
+	public void visualizza() {
+		
+	}
+	
+}

@@ -1,0 +1,17 @@
+package model;
+
+public class Impegno {
+	
+	private String argomento;
+	private String luogo;
+	private String priorita;
+	
+	public Impegno(String argomento, String luogo, String priorita) {
+		this.argomento = argomento;
+		this.luogo = luogo;
+		this.priorita = priorita;
+	}
+	
+	
+
+}

@@ -2,6 +2,7 @@ package controller;
 
 import java.io.IOException;
 import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.Statement;
 
 import databse.Connessione;
@@ -22,14 +23,14 @@ public class EliminaImpegno extends HttpServlet {
 		
 	private Connessione connessione=null;
 	private Connection con=null;
-	private Statement st=null;
-	private String queryDelete="delete from impegno where id='";
+	private String queryDelete="delete from impegno where id=?;";
 	private static final long serialVersionUID = 1L;
  
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		connessione = new Connessione();		
-		con=connessione.getConnessione();	
+		con=connessione.getConnessione();
+		PreparedStatement deleteImpegno = null;
 		String id=request.getParameter("id");
 		System.out.println("L'id è ---> "+id);
 
@@ -37,8 +38,9 @@ public class EliminaImpegno extends HttpServlet {
 		
 		if(con!=null) {
 			try {
-				st=(Statement) con.createStatement();
-				int res=st.executeUpdate(queryDelete+id+"';");
+				deleteImpegno=(PreparedStatement)con.prepareStatement(queryDelete);
+				deleteImpegno.setString(1,id);
+				int res=deleteImpegno.executeUpdate();
 				
 				System.out.println(res);
 	
@@ -48,11 +50,19 @@ public class EliminaImpegno extends HttpServlet {
 					jsonRisposta.put("elimina", false);
 				
 			} catch (SQLException e) {
-				e.printStackTrace();
-			}			
-			response.setContentType("application/json");
-		    response.setCharacterEncoding("UTF-8");
-		    response.getWriter().write(jsonRisposta.toString());
+				System.out.println("Errore query delete");
+			}
+			try {
+				deleteImpegno.close();
+			} catch (SQLException e) {
+				System.out.println("Errore chiusura query delete");
+			}
 		}
+		else
+			jsonRisposta.put("elimina", false);
+		
+		response.setContentType("application/json");
+	    response.setCharacterEncoding("UTF-8");
+	    response.getWriter().write(jsonRisposta.toString());
 	}
 }

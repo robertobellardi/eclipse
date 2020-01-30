@@ -1,0 +1,20 @@
+.inputAgenda{
+	margin: 25px;
+}
+
+.errore{
+	color: red;
+}
+
+.erroreCampo{
+	color: red;
+}
+
+.icona{
+	width: 50px;
+}
+
+.icona:hover{
+	background-color: red;
+	border-radius: 25px;
+}

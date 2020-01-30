@@ -1,0 +1,7 @@
+.inputAgenda{
+	margin: 25px;
+}
+
+.errore{
+	color: red;
+}

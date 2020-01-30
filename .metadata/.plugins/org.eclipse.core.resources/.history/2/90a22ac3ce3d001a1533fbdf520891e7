@@ -1,0 +1,36 @@
+package model;
+
+public class Agenda {
+	
+	private static Agenda istanza = null;
+	private Impegno[] lunedi;
+  
+    // private constructor restricted to this class itself 
+    private Agenda(){ 
+        lunedi=new Impegno[10];
+    } 
+  
+    // static method to create instance of Singleton class 
+    public static Singleton getInstance() 
+    { 
+        if (single_instance == null) 
+            single_instance = new Singleton(); 
+  
+        return single_instance; 
+    } 
+
+	
+	
+	public void definisci(String argomento,String luogo,int priorita,int orario) {
+		
+		Impegno nuovoImpegno=new Impegno(argomento, luogo, priorita);	
+		lunedi[orario]=nuovoImpegno;
+	
+		
+	}
+	
+	public Impegno[] visualizza() {
+		return lunedi;
+	}
+	
+}

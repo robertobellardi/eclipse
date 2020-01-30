@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<qualifiedTypeNameHistroy>
+<fullyQualifiedTypeName name="java.util.List"/>
+<fullyQualifiedTypeName name="java.util.Arrays"/>
+<fullyQualifiedTypeName name="model.Autore"/>
+<fullyQualifiedTypeName name="service.Schedario"/>
+<fullyQualifiedTypeName name="model.Libro"/>
+<fullyQualifiedTypeName name="service.LibriService"/>
+<fullyQualifiedTypeName name="java.sql.Statement"/>
+<fullyQualifiedTypeName name="java.sql.SQLException"/>
+<fullyQualifiedTypeName name="com.mysql.jdbc.Connection"/>
+<fullyQualifiedTypeName name="java.sql.ResultSet"/>
+<fullyQualifiedTypeName name="dao.StudenteDao"/>
+<fullyQualifiedTypeName name="dao.StudenteDaoImpl"/>
+<fullyQualifiedTypeName name="controller.StudentiController"/>
+<fullyQualifiedTypeName name="java.util.ArrayList"/>
+<fullyQualifiedTypeName name="model.Studente"/>
+<fullyQualifiedTypeName name="model.Impegno"/>
+<fullyQualifiedTypeName name="model.Agenda"/>
+<fullyQualifiedTypeName name="java.lang.Integer"/>
+<fullyQualifiedTypeName name="com.sun.corba.se.spi.ior.Writeable"/>
+<fullyQualifiedTypeName name="org.json.JSONArray"/>
+<fullyQualifiedTypeName name="org.json.JSONObject"/>
+<fullyQualifiedTypeName name="java.util.Date"/>
+<fullyQualifiedTypeName name="com.mysql.jdbc.Statement"/>
+<fullyQualifiedTypeName name="java.io.IOException"/>
+<fullyQualifiedTypeName name="java.sql.DriverManager"/>
+<fullyQualifiedTypeName name="databse.Connessione"/>
+</qualifiedTypeNameHistroy>

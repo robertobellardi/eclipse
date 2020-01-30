@@ -1,0 +1,19 @@
+package model;
+
+public class Agenda {
+
+	private Impegno[] lunedi=new Impegno[10];
+	
+	public void definisci(String argomento,String luogo,int priorita,int orario) {
+		
+		Impegno nuovoImpegno=new Impegno(argomento, luogo, priorita);	
+		lunedi[orario]=nuovoImpegno;
+	
+		
+	}
+	
+	public Impegno[] visualizza() {
+		return lunedi;
+	}
+	
+}

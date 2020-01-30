@@ -1,0 +1,23 @@
+package model;
+
+public class Agenda {
+
+	private int countLunedi=0;
+	private Impegno[] lunedi=new Impegno[10];
+	
+	public void definisci(String argomento,String luogo,int priorita) {
+		
+		Impegno nuovoImpegno=new Impegno(argomento, luogo, priorita);
+		
+		if(countLunedi<10) {
+			lunedi[countLunedi]=nuovoImpegno;
+			countLunedi++;
+		}
+		
+	}
+	
+	public void visualizza() {
+		
+	}
+	
+}

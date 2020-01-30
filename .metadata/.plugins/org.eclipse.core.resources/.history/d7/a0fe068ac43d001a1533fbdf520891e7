@@ -1,0 +1,16 @@
+package model;
+
+public class Agenda {
+
+	private countLunedi=0;
+	private Impegno[] lunedì=new Impegno[10];
+	
+	public void definisci(Impegno) {
+		
+	}
+	
+	public void visualizza() {
+		
+	}
+	
+}

@@ -1,0 +1,165 @@
+package controller;
+
+import java.io.IOException;
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.PreparedStatement;
+import com.mysql.jdbc.Statement;
+
+import databse.Connessione;
+
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.sql.ResultSet;
+
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.json.JSONObject;
+
+@WebServlet("/inserisciImpegno")
+public class InserisciImpegno extends HttpServlet {
+		
+	private Connessione connessione=null;
+	private Connection con=null;
+	private ResultSet rs=null;
+	private String queryDate="select * from impegno where data=?";
+	private String insertDate="insert into impegno (nome,luogo,priorita,data) values (?,?,?,?);";
+	private static final long serialVersionUID = 1L;
+ 
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		String impegno=request.getParameter("impegno");
+		String luogo=request.getParameter("luogo");
+		String priorita=request.getParameter("priorita");
+		String orario=request.getParameter("orario");
+		
+		System.out.println(orario);
+		
+		connessione = new Connessione();
+		
+		con=connessione.getConnessione();
+		PreparedStatement selectImpegno = null;
+		PreparedStatement insertImpegno = null;
+		
+		JSONObject jsonIm = new JSONObject();
+		
+		if(con!=null && checkDate(orario)) {
+			try {
+				selectImpegno=(PreparedStatement)con.prepareStatement(queryDate);
+				selectImpegno.setString(1, orario);
+				rs=selectImpegno.executeQuery();
+				
+				System.out.println("Query ricerca");
+				if(!rs.next()) {
+					jsonIm.put("inserimento",true);
+					
+					insertImpegno=(PreparedStatement)con.prepareStatement(insertDate);
+					insertImpegno.setString(1, impegno);
+					insertImpegno.setString(2, luogo);
+					insertImpegno.setString(3, priorita);
+					insertImpegno.setString(4, orario);
+					
+					int result=insertImpegno.executeUpdate();
+					
+					System.out.println("Query update");
+					if(result == 1) {
+						rs=selectImpegno.executeQuery();	
+						if(rs.next()) {							
+							System.out.println(rs.getInt(1));
+							jsonIm.put("id",rs.getInt(1));
+							jsonIm.put("impegno",impegno);
+							jsonIm.put("luogo",luogo);
+							jsonIm.put("priorita",priorita);
+							jsonIm.put("orario",orario);
+						}
+						else
+							jsonIm.put("inserimento",false);
+					}
+					else
+						jsonIm.put("inserimento",false);
+									}
+				else {
+					jsonIm.put("inserimento",false);
+				}
+			} catch (SQLException e) {
+				System.out.println("Errore query");
+			}
+			
+			try {
+				selectImpegno.close();
+				insertImpegno.close();
+			} catch (SQLException e) {
+				System.out.println("Errore chiusura query");
+			}
+			response.setContentType("application/json");
+		    response.setCharacterEncoding("UTF-8");
+		    response.getWriter().write(jsonIm.toString());
+		}
+	}
+	
+	
+	protected boolean checkDate(String dateTime) {
+		LocalDateTime ldt=LocalDateTime.now();
+		boolean check=false;
+		
+		int anno=((dateTime.charAt(0)-48)*1000);
+		anno+=((dateTime.charAt(1)-48)*100);
+		anno+=((dateTime.charAt(2)-48)*10);
+		anno+=dateTime.charAt(3)-48;
+		
+		int mese=((dateTime.charAt(5)-48)*10);
+		mese+=(dateTime.charAt(6)-48);
+		
+		int giorno=((dateTime.charAt(8)-48)*10);
+		giorno+=(dateTime.charAt(9)-48);
+		
+		int ore=((dateTime.charAt(11)-48)*10);
+		ore+=(dateTime.charAt(12)-48);
+		
+		int minuti=((dateTime.charAt(14)-48)*10);
+		minuti+=(dateTime.charAt(15)-48);
+		/*		
+		System.out.println("Anno "+anno);
+		System.out.println("Mese "+mese);
+		System.out.println("Giorno "+giorno);
+		System.out.println("Ore "+ore);
+		System.out.println("Minuti "+minuti);
+		*/
+		if (giorno > 0 && giorno <= 31 && mese > 0 && mese <= 12) {
+			int g=ldt.getDayOfMonth();
+			int m=ldt.getMonthValue();
+			int a=ldt.getYear();
+
+	        if (anno > a || (anno == a && mese > m) || (anno == a && mese == m && giorno >= g)) {
+	                if (mese == 2) {
+	                    if (giorno <= 28)
+	                        check = true;
+	                    else {
+	                        if (giorno == 29) {
+	                            if ((anno % 100) != 0) {
+	                                if ((anno % 4) == 0)
+	                                    check = true;
+	                            } else {
+	                                if ((anno % 400) == 0)
+	                                    check = true;
+	                            }
+	                        }
+	                    }
+	                } else {
+	                    if (mese == 4 || mese == 6 || mese == 9 || mese == 11) {
+	                        if (giorno <= 30) {
+	                            check = true;
+	                        }
+	                    } else {
+	                        check = true;
+	                    }
+	                }
+	            
+	        }
+	    }		
+		return check;		
+	}
+}

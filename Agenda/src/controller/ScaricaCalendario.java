@@ -50,48 +50,16 @@ public class ScaricaCalendario extends HttpServlet {
 					i++;
 				}
 			} catch (SQLException e) {
-				e.printStackTrace();
-			}			
+				System.out.println("Errore query select");
+			}	
+			try {
+				st.close();
+			} catch (SQLException e) {
+				System.out.println("Errore chiusura query select");
+			}
 			response.setContentType("application/json");
 		    response.setCharacterEncoding("UTF-8");
 		    response.getWriter().write(jsonArray.toString());
-		}
+		}		
 	}
-	
-	protected String getDateTime(String str) {
-		
-		String s="";
-		
-		//System.out.println(str.length());
-		
-		s+=str.charAt(0);
-		s+=str.charAt(1);
-		s+=str.charAt(2);
-		s+=str.charAt(3);
-		s+="/";								//anno
-		//System.out.println(s);
-		
-		s+=str.charAt(4);
-		s+=str.charAt(5);
-		s+="/";								//mese
-		//System.out.println(s);
-		
-		s+=str.charAt(6);
-		s+=str.charAt(7);
-		s+=" ";								//giorno
-		//System.out.println(s);
-		
-		s+=str.charAt(8);
-		s+=str.charAt(9);
-		s+=":";								//ore
-		//System.out.println(s);
-		
-		s+=str.charAt(10);
-		s+=str.charAt(11);					//minuti
-		//System.out.println(s);
-		
-		//System.out.println(s);
-		
-		return s;
-	} 
 }

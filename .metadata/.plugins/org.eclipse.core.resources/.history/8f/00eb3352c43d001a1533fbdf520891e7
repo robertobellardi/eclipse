@@ -1,0 +1,7 @@
+package model;
+
+public class Agenda {
+
+	Impegno[] lunedì=new Impegno[10];
+	
+}

@@ -1,0 +1,5 @@
+127.0.0.1 - - [20/Jan/2020:10:40:09 +0100] "GET / HTTP/1.1" 404 1074
+0:0:0:0:0:0:0:1 - - [20/Jan/2020:10:40:10 +0100] "GET /Prj_06_Albergo/ HTTP/1.1" 404 1093
+0:0:0:0:0:0:0:1 - - [20/Jan/2020:10:40:14 +0100] "GET /Prj_06_Albergo/Home HTTP/1.1" 200 26
+0:0:0:0:0:0:0:1 - - [20/Jan/2020:10:40:26 +0100] "GET /Prj_06_Albergo/modulo_prenotazione.html HTTP/1.1" 200 605
+0:0:0:0:0:0:0:1 - - [20/Jan/2020:10:40:32 +0100] "GET /Prj_06_Albergo/Home?nome=zdfbd&password=zdfb HTTP/1.1" 200 26

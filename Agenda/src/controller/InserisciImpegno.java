@@ -2,12 +2,14 @@ package controller;
 
 import java.io.IOException;
 import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.Statement;
 
 import databse.Connessione;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.time.LocalDateTime;
 import java.sql.ResultSet;
 
 import javax.servlet.ServletException;
@@ -23,10 +25,9 @@ public class InserisciImpegno extends HttpServlet {
 		
 	private Connessione connessione=null;
 	private Connection con=null;
-	private Statement st=null;
 	private ResultSet rs=null;
-	private String queryDate="select * from impegno where data='";
-	private String insertDate="insert into impegno (nome,luogo,priorita,data) values (";
+	private String queryDate="select * from impegno where data=?";
+	private String insertDate="insert into impegno (nome,luogo,priorita,data) values (?,?,?,?);";
 	private static final long serialVersionUID = 1L;
  
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -36,27 +37,36 @@ public class InserisciImpegno extends HttpServlet {
 		String orario=request.getParameter("orario");
 		
 		System.out.println(orario);
-		//orario=getDateTime(orario);
 		
 		connessione = new Connessione();
 		
 		con=connessione.getConnessione();
+		PreparedStatement selectImpegno = null;
+		PreparedStatement insertImpegno = null;
 		
 		JSONObject jsonIm = new JSONObject();
 		
-		if(con!=null) {
+		if(con!=null && checkDate(orario)) {
 			try {
-				st=(Statement) con.createStatement();
-				rs=st.executeQuery(queryDate+orario+"';");
+				selectImpegno=(PreparedStatement)con.prepareStatement(queryDate);
+				selectImpegno.setString(1, orario);
+				rs=selectImpegno.executeQuery();
+				
 				System.out.println("Query ricerca");
 				if(!rs.next()) {
 					jsonIm.put("inserimento",true);
-					insertDate+="'"+impegno+"','"+luogo+"','"+priorita+"','"+orario+"');";
-					int result=st.executeUpdate(insertDate);
+					
+					insertImpegno=(PreparedStatement)con.prepareStatement(insertDate);
+					insertImpegno.setString(1, impegno);
+					insertImpegno.setString(2, luogo);
+					insertImpegno.setString(3, priorita);
+					insertImpegno.setString(4, orario);
+					
+					int result=insertImpegno.executeUpdate();
+					
 					System.out.println("Query update");
 					if(result == 1) {
-						st=(Statement) con.createStatement();
-						rs=st.executeQuery(queryDate+orario+"';");	
+						rs=selectImpegno.executeQuery();	
 						if(rs.next()) {							
 							System.out.println(rs.getInt(1));
 							jsonIm.put("id",rs.getInt(1));
@@ -75,48 +85,93 @@ public class InserisciImpegno extends HttpServlet {
 					jsonIm.put("inserimento",false);
 				}
 			} catch (SQLException e) {
-				e.printStackTrace();
-			}			
-			response.setContentType("application/json");
-		    response.setCharacterEncoding("UTF-8");
-		    response.getWriter().write(jsonIm.toString());
+				System.out.println("Errore query");
+			}
+			
+			try {
+				selectImpegno.close();
+				insertImpegno.close();
+			} catch (SQLException e) {
+				System.out.println("Errore chiusura query");
+			}
 		}
+		else
+			jsonIm.put("inserimento",false);
+		
+		response.setContentType("application/json");
+	    response.setCharacterEncoding("UTF-8");
+	    response.getWriter().write(jsonIm.toString());
 	}
 	
-	protected String getDateTime(String str) {
+	
+	protected boolean checkDate(String dateTime) {
+		LocalDateTime ldt=LocalDateTime.now();
+		boolean check=false;
 		
-		String s="";
+		int anno=((dateTime.charAt(0)-48)*1000);
+		anno+=((dateTime.charAt(1)-48)*100);
+		anno+=((dateTime.charAt(2)-48)*10);
+		anno+=dateTime.charAt(3)-48;
 		
-		//System.out.println(str.length());
+		int mese=((dateTime.charAt(5)-48)*10);
+		mese+=(dateTime.charAt(6)-48);
 		
-		s+=str.charAt(0);
-		s+=str.charAt(1);
-		s+=str.charAt(2);
-		s+=str.charAt(3);
-		s+="/";								//anno
-		//System.out.println(s);
+		int giorno=((dateTime.charAt(8)-48)*10);
+		giorno+=(dateTime.charAt(9)-48);
 		
-		s+=str.charAt(4);
-		s+=str.charAt(5);
-		s+="/";								//mese
-		//System.out.println(s);
+		int ore=((dateTime.charAt(11)-48)*10);
+		ore+=(dateTime.charAt(12)-48);
 		
-		s+=str.charAt(6);
-		s+=str.charAt(7);
-		s+=" ";								//giorno
-		//System.out.println(s);
+		int minuti=((dateTime.charAt(14)-48)*10);
+		minuti+=(dateTime.charAt(15)-48);
 		
-		s+=str.charAt(8);
-		s+=str.charAt(9);
-		s+=":";								//ore
-		//System.out.println(s);
-		
-		s+=str.charAt(10);
-		s+=str.charAt(11);					//minuti
-		//System.out.println(s);
-		
-		//System.out.println(s);
-		
-		return s;
-	} 
+		if (giorno > 0 && giorno <= 31 && 
+				mese > 0 && mese <= 12 && 
+				anno > 0 && 
+				ore >=0 && ore<24 && 
+				minuti >=0 && minuti<60
+				) {
+			
+			int g=ldt.getDayOfMonth();
+			int m=ldt.getMonthValue();
+			int a=ldt.getYear();
+			int o=ldt.getHour();
+			int min=ldt.getMinute();
+			
+			System.out.println(g+" "+m+" "+a+" "+o+" "+min);
+
+	        if (anno > a || 
+        		(anno == a && mese > m) || 
+        		(anno == a && mese == m && giorno > g) || 
+        		(anno == a && mese == m && giorno == g && ore >o) || 
+        		(anno == a && mese == m && giorno == g && ore == o && minuti > min)
+        		) {
+	                if (mese == 2) {
+	                    if (giorno <= 28)
+	                        check = true;
+	                    else {
+	                        if (giorno == 29) {
+	                            if ((anno % 100) != 0) {
+	                                if ((anno % 4) == 0)
+	                                    check = true;
+	                            } else {
+	                                if ((anno % 400) == 0)
+	                                    check = true;
+	                            }
+	                        }
+	                    }
+	                } else {
+	                    if (mese == 4 || mese == 6 || mese == 9 || mese == 11) {
+	                        if (giorno <= 30) {
+	                            check = true;
+	                        }
+	                    } else {
+	                        check = true;
+	                    }
+	                }
+	            
+	        }
+	    }		
+		return check;		
+	}
 }

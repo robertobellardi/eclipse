@@ -1,6 +1,18 @@
 window.onload = function () {
     $("#inserisci").click(controllaInserimento);
     scaricaCalendario();
+    
+    $("#downImpegno").click(ordinaDownImpegno);
+    $("#upImpegno").click(ordinaUpImpegno);
+    
+    $("#downLuogo").click(ordinaDownLuogo);
+    $("#upLuogo").click(ordinaUpLuogo);
+    
+    $("#downPriorita").click(ordinaDownPriorita);
+    $("#upPriorita").click(ordinaUpPriorita);
+    
+    $("#downOrario").click(ordinaDownOrario);
+    $("#upOrario").click(ordinaUpOrario);
 }
 
 function controllaInserimento(){	
@@ -17,7 +29,7 @@ function controllaInserimento(){
 	if(luogo == "")
 		erroreCampi("#luogo");
 	
-	if(impegno != "" && luogo!= "" /*&& checkDate(orario)*/)
+	if(impegno != "" && luogo!= "" && checkDate(orario))
 		sendDate(impegno,luogo,priorita,orario);
 }
 
@@ -36,10 +48,10 @@ function sendDate(impegno,luogo,priorita,orario){
 }
 
 function inserimentoAvvenuto(risp){	
-	var str="<tr id='"+risp["id"]+"'><th scope='row'>"+
-	risp["impegno"]+"</th><td>"+
-	risp["luogo"]+"</td><td>"+
-	risp["priorita"]+"</td><td>"+
+	var str="<tr id='"+risp["id"]+"'><th scope='row' class='impegno'>"+
+	risp["impegno"]+"</th><td class='luogo'>"+
+	risp["luogo"]+"</td><td class='priorita'>"+
+	risp["priorita"]+"</td><td class='orario'>"+
 	risp["orario"]+"</td><td>"+
 	"<img class='icona' src='assets/clearIcon.png' alt='clearIcon.png'></td></tr>";
 	
@@ -54,15 +66,13 @@ function scaricaCalendario(){
 		console.log("Errore richiesta scaricamento calendario");
 	}).done(function (ajaxO, ajaxStatus, ajaxObj) {
 		var risp=ajaxO;
-		
-		console.log(risp);
-		
+				
 		var str="";
 		for(x in risp){
-			str+="<tr id='"+risp[x]["id"]+"'><th scope='row'>"+
-			risp[x]["impegno"]+"</th><td>"+
-			risp[x]["luogo"]+"</td><td>"+
-			risp[x]["priorita"]+"</td><td>"+
+			str+="<tr id='"+risp[x]["id"]+"'><th scope='row' class='impegno'>"+
+			risp[x]["impegno"]+"</th><td class='luogo'>"+
+			risp[x]["luogo"]+"</td><td class='priorita'>"+
+			risp[x]["priorita"]+"</td><td class='orario'>"+
 			risp[x]["orario"]+"</td><td>"+
 			"<img class='icona' src='assets/clearIcon.png' alt='clearIcon.png'></td></tr>";
 		}
@@ -122,6 +132,72 @@ function checkDate(dateTime){
 	else
 		return false;
 	
+}
+
+/*
+  		console.log(figlio);							//riga
+		console.log(figlio.children().eq(0).text());
+		console.log(figlio.children().eq(1).text());
+		console.log(figlio.children().eq(2).text());
+		console.log(figlio.children().eq(3).text());
+
+ */
+
+
+function ordinaTabella(index,crescente){
+	var tabella=$("#tablebody tr");
+	var n=tabella.length;
+
+	for(var j=0; j<n;j++){
+		for(var i=0; i<n-1;i++){
+			var figlio=tabella.eq(i);
+			
+			if(crescente){		
+				if(figlio.children().eq(index).text().localeCompare(tabella.eq(i+1).children().eq(index).text()) < 0 ){
+					figlio.before(tabella.eq(i+1));
+				}
+			}
+			else{
+				if(figlio.children().eq(index).text().localeCompare(tabella.eq(i+1).children().eq(index).text()) > 0 ){
+					figlio.before(tabella.eq(i+1));
+				}
+			}
+		}
+	}
+}
+
+
+function ordinaDownImpegno(){
+	ordinaTabella(0,false);
+}
+		
+
+function ordinaUpImpegno(){
+	ordinaTabella(0,true);
+}
+
+function ordinaDownLuogo(){	
+	ordinaTabella(1,false);
+}
+
+function ordinaUpLuogo(){
+	ordinaTabella(1,true);
+}
+
+function ordinaDownPriorita(){
+	ordinaTabella(2,false);
+}
+
+function ordinaUpPriorita(){
+	ordinaTabella(2,true);
+}
+
+function ordinaDownOrario(){
+	ordinaTabella(3,false);
+}
+
+function ordinaUpOrario(){
+	ordinaTabella(3,true);
 }
 
 

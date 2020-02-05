@@ -36,7 +36,9 @@ public class InserisciImpegno extends HttpServlet {
 		String priorita=request.getParameter("priorita");
 		String orario=request.getParameter("orario");
 		
-		System.out.println(orario);
+		impegno=checkXSS(impegno);
+		luogo=checkXSS(luogo);
+		
 		
 		connessione = new Connessione();
 		
@@ -173,5 +175,16 @@ public class InserisciImpegno extends HttpServlet {
 	        }
 	    }		
 		return check;		
+	}
+	
+	protected String checkXSS(String str) {
+		String sanitize="";
+		
+		for(int i=0;i<str.length();i++) {
+			if(str.charAt(i) != '<' && str.charAt(i) != '>')
+				sanitize+=str.charAt(i);
+		}
+		System.out.println("Sanitize ---> "+sanitize);
+		return sanitize;
 	}
 }

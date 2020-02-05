@@ -134,16 +134,6 @@ function checkDate(dateTime){
 	
 }
 
-/*
-  		console.log(figlio);							//riga
-		console.log(figlio.children().eq(0).text());
-		console.log(figlio.children().eq(1).text());
-		console.log(figlio.children().eq(2).text());
-		console.log(figlio.children().eq(3).text());
-
- */
-
-
 function ordinaTabella(index,crescente){
 	var tabella=$("#tablebody tr");
 	var n=tabella.length;

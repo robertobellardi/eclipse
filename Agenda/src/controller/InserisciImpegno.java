@@ -5,7 +5,7 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.Statement;
 
-import databse.Connessione;
+import database.Connessione;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -181,10 +181,15 @@ public class InserisciImpegno extends HttpServlet {
 		String sanitize="";
 		
 		for(int i=0;i<str.length();i++) {
-			if(str.charAt(i) != '<' && str.charAt(i) != '>')
+			if(str.charAt(i) == '<') {
+				while(str.charAt(i) != '>') {
+					i++;
+				}
+			}
+			else
 				sanitize+=str.charAt(i);
 		}
 		System.out.println("Sanitize ---> "+sanitize);
 		return sanitize;
-	}
+	}	
 }

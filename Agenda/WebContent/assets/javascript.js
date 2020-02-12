@@ -1,5 +1,29 @@
 window.onload = function () {
-    $("#inserisci").click(controllaInserimento);
+    $("#buttonLogin").click(checkLogin);
+}
+
+
+function checkLogin(){
+	var mail=$("#mail").val();
+	var password=$("#password").val();
+	
+	console.log(mail +" --- "+password);
+	
+	var ajax = $.post("richiestaLogin",{"mail":mail,"password":password},function (ajaxObj, status) {
+		console.log("status richiesta login: " + status);
+	}).fail(function (ajaxO, ajaxStatus, ajaxObj) {
+		console.log("Errore richiesta login");
+	}).done(function (ajaxO, ajaxStatus, ajaxObj) {
+		if(ajaxO["login"]){
+			$("#areaLogin").remove();
+			$("body").append(ajaxO["html"]);
+			agganciaFunzioni();
+		}
+	});	
+}
+
+function agganciaFunzioni(){
+	$("#inserisci").click(controllaInserimento);
     scaricaCalendario();
     
     $("#downImpegno").click(ordinaDownImpegno);

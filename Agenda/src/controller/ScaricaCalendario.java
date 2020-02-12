@@ -4,7 +4,7 @@ import java.io.IOException;
 import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.Statement;
 
-import databse.Connessione;
+import database.Connessione;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -42,10 +42,10 @@ public class ScaricaCalendario extends HttpServlet {
 				while(rs.next()) {
 					JSONObject jsonIm = new JSONObject();
 					jsonIm.put("id",rs.getString(1));
-					jsonIm.put("impegno",rs.getString(2));
-					jsonIm.put("luogo",rs.getString(3));
-					jsonIm.put("priorita",rs.getString(4));
-					jsonIm.put("orario",rs.getString(5));
+					jsonIm.put("impegno",rs.getString(3));
+					jsonIm.put("luogo",rs.getString(4));
+					jsonIm.put("priorita",rs.getString(5));
+					jsonIm.put("orario",rs.getString(6));
 					jsonArray.put("impegno"+i, jsonIm);
 					i++;
 				}

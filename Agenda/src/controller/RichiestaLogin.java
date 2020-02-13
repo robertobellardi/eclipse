@@ -67,6 +67,7 @@ public class RichiestaLogin extends HttpServlet {
 					    	str+=line;
 	
 						jsonIm.put("html",str);
+						jsonIm.put("id",rs.getString(1));
 					}				
 					else {
 						jsonIm.put("login",false);

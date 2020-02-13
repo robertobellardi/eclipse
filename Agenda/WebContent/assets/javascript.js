@@ -1,5 +1,8 @@
+var id;
+
 window.onload = function () {
     $("#buttonLogin").click(checkLogin);
+    $("#buttonRegister").click(getRegister);
 }
 
 
@@ -15,11 +18,28 @@ function checkLogin(){
 		console.log("Errore richiesta login");
 	}).done(function (ajaxO, ajaxStatus, ajaxObj) {
 		if(ajaxO["login"]){
+			id=ajaxO["id"];
 			$("#areaLogin").remove();
 			$("body").append(ajaxO["html"]);
 			agganciaFunzioni();
 		}
+		else{
+			agganciaErroreLogin("formLogin",ajaxO["errore"]);
+		}
 	});	
+}
+
+function getRegister(){
+	
+	var div=$("<div class='form-group'></div>");
+	var label=$("<label for='re-password'>Reinserisci la password</label>");
+	var input=$("<input type='text' class='form-control' id='re-password' placeholder='Re inserisci la password'></input>");
+	
+	div.append(label);
+	div.append(input);
+	
+	$("#buttonLogin").before(div);
+
 }
 
 function agganciaFunzioni(){
@@ -214,11 +234,14 @@ function ordinaUpOrario(){
 	ordinaTabella(3,true);
 }
 
+function agganciaErroreLogin(id,errore){
+	$(".erroreLogin").remove();
+	$("#"+id).append("<h1 class='erroreLogin'>"+errore+"</h1>");
+}
 
 function agganciaErroreImpegno(){
 	$("#titolo").after("<h1 class='errore'>Errore eliminazione</h1>");
 }
-
 
 function erroreInserimento(){
 	$("#inserimentoAgenda").after("<h1 class='errore'>Data non valida</h1>");

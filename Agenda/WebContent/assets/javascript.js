@@ -33,13 +33,57 @@ function getRegister(){
 	
 	var div=$("<div class='form-group'></div>");
 	var label=$("<label for='re-password'>Reinserisci la password</label>");
-	var input=$("<input type='text' class='form-control' id='re-password' placeholder='Re inserisci la password'></input>");
+	var input=$("<input type='password' class='form-control' id='repassword' placeholder='Conferma la password'></input>");
 	
 	div.append(label);
 	div.append(input);
 	
 	$("#buttonLogin").before(div);
+	$("#buttonRegister").off();
+	$("#buttonRegister").click(checkRegister);
+}
 
+function checkRegister(){
+	var mail=$("#mail").val();
+	var password=$("#password").val();
+	var repassword=$("#repassword").val();
+	
+	var check=true;
+	
+	console.log(mail +" --- "+password+" --- "+repassword);
+	
+	
+	if(mail === ""){
+		erroreCampi("#mail");
+		check=false;
+	}
+	if(password === ""){
+		erroreCampi("#password");
+		check=false;}
+	if(password != repassword){
+		erroreCampi("#repassword");
+		check=false;
+	}
+	
+	if(check){
+		var ajax = $.post("richiestaRegister",{"mail":mail,"password":password,"repassword":repassword},function (ajaxObj, status) {
+			console.log("status richiesta register: " + status);
+		}).fail(function (ajaxO, ajaxStatus, ajaxObj) {
+			console.log("Errore richiesta register");
+		}).done(function (ajaxO, ajaxStatus, ajaxObj) {
+			console.log(ajaxO);
+			
+			if(ajaxO["register"]){
+				$("#areaLogin").remove();
+				$("body").append(ajaxO["html"]);
+				agganciaFunzioni();
+			}
+			else{
+				agganciaErroreLogin("formLogin",ajaxO["errore"]);
+			}
+			
+		});
+	}
 }
 
 function agganciaFunzioni(){

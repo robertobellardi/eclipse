@@ -1,8 +1,8 @@
-var id;
-
 window.onload = function () {
     $("#buttonLogin").click(checkLogin);
     $("#buttonRegister").click(getRegister);
+    if(sessionStorage.getItem("id"))
+    	agganciaFunzioni();
 }
 
 
@@ -18,9 +18,7 @@ function checkLogin(){
 		console.log("Errore richiesta login");
 	}).done(function (ajaxO, ajaxStatus, ajaxObj) {
 		if(ajaxO["login"]){
-			id=ajaxO["id"];
-			$("#areaLogin").remove();
-			$("body").append(ajaxO["html"]);
+			sessionStorage.setItem("id",ajaxO["id"])
 			agganciaFunzioni();
 		}
 		else{
@@ -74,14 +72,12 @@ function checkRegister(){
 			console.log(ajaxO);
 			
 			if(ajaxO["register"]){
-				$("#areaLogin").remove();
-				$("body").append(ajaxO["html"]);
 				agganciaFunzioni();
+				sessionStorage.setItem("id",ajaxO["id"]);
 			}
 			else{
 				agganciaErroreLogin("formLogin",ajaxO["errore"]);
-			}
-			
+			}			
 		});
 	}
 }
@@ -148,25 +144,40 @@ function inserimentoAvvenuto(risp){
 }
 
 function scaricaCalendario(){
-    var ajax = $.post("scaricaCalendario",{},function (ajaxObj, status) {
+	
+	var id=sessionStorage.getItem("id");
+	console.log("Id è ---> "+id);
+	
+    var ajax = $.post("scaricaCalendario",{"id":id},function (ajaxObj, status) {
 		console.log("status richiesta scaricamento calendario: " + status);
 	}).fail(function (ajaxO, ajaxStatus, ajaxObj) {
 		console.log("Errore richiesta scaricamento calendario");
 	}).done(function (ajaxO, ajaxStatus, ajaxObj) {
 		var risp=ajaxO;
+		
+		$("#areaLogin").remove();
+		$("body").append(ajaxO["html"]);
 				
 		var str="";
 		for(x in risp){
-			str+="<tr id='"+risp[x]["id"]+"'><th scope='row' class='impegno'>"+
-			risp[x]["impegno"]+"</th><td class='luogo'>"+
-			risp[x]["luogo"]+"</td><td class='priorita'>"+
-			risp[x]["priorita"]+"</td><td class='orario'>"+
-			risp[x]["orario"]+"</td><td>"+
-			"<img class='icona' src='assets/clearIcon.png' alt='clearIcon.png'></td></tr>";
+			if(x!="html"){
+				str+="<tr id='"+risp[x]["id"]+"'><th scope='row' class='impegno'>"+
+				risp[x]["impegno"]+"</th><td class='luogo'>"+
+				risp[x]["luogo"]+"</td><td class='priorita'>"+
+				risp[x]["priorita"]+"</td><td class='orario'>"+
+				risp[x]["orario"]+"</td><td>"+
+				"<img class='icona' src='assets/clearIcon.png' alt='clearIcon.png'></td></tr>";
+			}
 		}
 		$("#tablebody").append(str);
 		agganciaFunzioneElimina(".icona");
+		$("#buttonLogout").click(logout);
 	});
+}
+
+function logout(){
+	sessionStorage.removeItem("id");
+	window.location.href = "index.html";
 }
 
 function agganciaFunzioneElimina(tag){

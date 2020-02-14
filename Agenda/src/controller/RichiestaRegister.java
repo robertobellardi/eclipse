@@ -21,6 +21,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 
@@ -68,15 +69,6 @@ public class RichiestaRegister extends HttpServlet {
 								System.out.println(rs.getInt(1));
 								jsonIm.put("register",true);
 								jsonIm.put("id",rs.getInt(1));
-								@SuppressWarnings("resource")
-								BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\sviluppo\\Desktop\\Eclipse\\Agenda\\WebContent\\center.html"));
-								
-							    String str="";
-							    String line;
-							    while( (line = br.readLine()) != null )					    
-							    	str+=line;
-			
-								jsonIm.put("html",str);
 							}
 						}
 						else {

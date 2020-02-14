@@ -1,7 +1,10 @@
 package controller;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.Statement;
 
 import database.Connessione;
@@ -25,19 +28,24 @@ public class ScaricaCalendario extends HttpServlet {
 	private Connection con=null;
 	private Statement st=null;
 	private ResultSet rs=null;
-	private String queryDate="select * from impegno;";
+	private String queryDate="select * from impegno where id_utente=?;";
 	private static final long serialVersionUID = 1L;
  
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		String id=request.getParameter("id");
+		System.out.println("Id è ---> "+id);
 		connessione = new Connessione();		
 		con=connessione.getConnessione();		
 		JSONObject jsonArray = new JSONObject();
+		PreparedStatement selectImpegni = null;
 		
 		if(con!=null) {
 			try {
-				st=(Statement) con.createStatement();
-				rs=st.executeQuery(queryDate);
+				selectImpegni=(PreparedStatement)con.prepareStatement(queryDate);
+				selectImpegni.setString(1, id);
+				rs=selectImpegni.executeQuery();
+				System.out.println("Passo 46");
 				int i=1;
 				while(rs.next()) {
 					JSONObject jsonIm = new JSONObject();
@@ -49,11 +57,20 @@ public class ScaricaCalendario extends HttpServlet {
 					jsonArray.put("impegno"+i, jsonIm);
 					i++;
 				}
+				@SuppressWarnings("resource")
+				BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\sviluppo\\Desktop\\Eclipse\\Agenda\\WebContent\\center.html"));
+				
+			    String str="";
+			    String line;
+			    while( (line = br.readLine()) != null )					    
+			    	str+=line;
+
+			    jsonArray.put("html",str);
 			} catch (SQLException e) {
 				System.out.println("Errore query select");
 			}	
 			try {
-				st.close();
+				con.close();
 			} catch (SQLException e) {
 				System.out.println("Errore chiusura query select");
 			}

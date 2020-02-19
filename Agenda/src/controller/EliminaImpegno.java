@@ -23,7 +23,7 @@ public class EliminaImpegno extends HttpServlet {
 		
 	private Connessione connessione=null;
 	private Connection con=null;
-	private String queryDelete="delete from impegno where id=?;";
+	private String queryDelete="delete from impegno where id=? and id_utente=?;";
 	private static final long serialVersionUID = 1L;
  
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -31,15 +31,17 @@ public class EliminaImpegno extends HttpServlet {
 		connessione = new Connessione();		
 		con=connessione.getConnessione();
 		PreparedStatement deleteImpegno = null;
-		String id=request.getParameter("id");
-		System.out.println("L'id è ---> "+id);
+		String id_impegno=request.getParameter("id_impegno");
+		String utente_id=request.getParameter("utente_id");
+		System.out.println("L'id è ---> "+id_impegno);
 
 		JSONObject jsonRisposta = new JSONObject();
 		
 		if(con!=null) {
 			try {
 				deleteImpegno=(PreparedStatement)con.prepareStatement(queryDelete);
-				deleteImpegno.setString(1,id);
+				deleteImpegno.setString(1,id_impegno);
+				deleteImpegno.setString(2,utente_id);
 				int res=deleteImpegno.executeUpdate();
 				
 				System.out.println(res);

@@ -26,14 +26,15 @@ public class InserisciImpegno extends HttpServlet {
 	private Connessione connessione=null;
 	private Connection con=null;
 	private ResultSet rs=null;
-	private String queryDate="select * from impegno where data=?";
-	private String insertDate="insert into impegno (nome,luogo,priorita,data) values (?,?,?,?);";
+	private String queryDate="select * from impegno where data=? and id_utente=?;";
+	private String insertDate="insert into impegno (nome,id_utente,luogo,priorita,data) values (?,?,?,?,?);";
 	private static final long serialVersionUID = 1L;
  
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String impegno=request.getParameter("impegno");
 		String luogo=request.getParameter("luogo");
 		String priorita=request.getParameter("priorita");
+		String utente_id=request.getParameter("utente_id");
 		String orario=request.getParameter("orario");
 		
 		impegno=checkXSS(impegno);
@@ -52,6 +53,7 @@ public class InserisciImpegno extends HttpServlet {
 			try {
 				selectImpegno=(PreparedStatement)con.prepareStatement(queryDate);
 				selectImpegno.setString(1, orario);
+				selectImpegno.setString(2, utente_id);
 				rs=selectImpegno.executeQuery();
 				
 				System.out.println("Query ricerca");
@@ -60,9 +62,10 @@ public class InserisciImpegno extends HttpServlet {
 					
 					insertImpegno=(PreparedStatement)con.prepareStatement(insertDate);
 					insertImpegno.setString(1, impegno);
-					insertImpegno.setString(2, luogo);
-					insertImpegno.setString(3, priorita);
-					insertImpegno.setString(4, orario);
+					insertImpegno.setString(2, utente_id);
+					insertImpegno.setString(3, luogo);
+					insertImpegno.setString(4, priorita);
+					insertImpegno.setString(5, orario);
 					
 					int result=insertImpegno.executeUpdate();
 					

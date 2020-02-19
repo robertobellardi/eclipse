@@ -87,9 +87,8 @@ function checkRegister() {
 }
 
 function agganciaFunzioni() {
-	$("#inserisci").click(controllaInserimento);
 	scaricaCalendario();
-
+	
 	$("#downImpegno").click(ordinaDownImpegno);
 	$("#upImpegno").click(ordinaUpImpegno);
 
@@ -104,6 +103,7 @@ function agganciaFunzioni() {
 }
 
 function controllaInserimento() {
+	console.log("Stampo");
 	pulisciErroreCampi();
 	pulisciErrore();
 
@@ -126,6 +126,7 @@ function sendDate(impegno, luogo, priorita, orario) {
 		"impegno" : impegno,
 		"luogo" : luogo,
 		"priorita" : priorita,
+		"utente_id" : sessionStorage.getItem("id"),
 		"orario" : orario,
 	}, function(ajaxObj, status) {
 		console.log("status richiesta inserimento impegno: " + status);
@@ -203,6 +204,7 @@ function scaricaCalendario() {
 						}
 						$("#tablebody").append(str);
 						agganciaFunzioneElimina(".icona");
+						$("#inserisci").click(controllaInserimento);
 						$("#buttonLogout").click(logout);
 					});
 }
@@ -222,7 +224,8 @@ function eliminaImpegno() {
 	pulisciErrore();
 
 	var ajax = $.post("eliminaImpegno", {
-		"id" : id
+		"id_impegno" : id,
+		"utente_id" : sessionStorage.getItem("id")
 	}, function(ajaxObj, status) {
 		console.log("status richiesta eliminazione impegno: " + status);
 	}).fail(function(ajaxO, ajaxStatus, ajaxObj) {

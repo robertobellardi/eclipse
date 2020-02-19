@@ -57,8 +57,11 @@ public class ScaricaCalendario extends HttpServlet {
 					jsonArray.put("impegno"+i, jsonIm);
 					i++;
 				}
-				@SuppressWarnings("resource")
-				BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\sviluppo\\Desktop\\Eclipse\\Agenda\\WebContent\\center.html"));
+				String relativeWebPath = "/center.html";
+				String absoluteDiskPath = getServletContext().getRealPath(relativeWebPath);
+				System.out.println(absoluteDiskPath);
+				@SuppressWarnings("resource")				
+				BufferedReader br = new BufferedReader(new FileReader(absoluteDiskPath));
 				
 			    String str="";
 			    String line;

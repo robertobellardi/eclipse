@@ -88,7 +88,9 @@ function checkRegister() {
 
 function agganciaFunzioni() {
 	scaricaCalendario();
-	
+}
+
+function agganciaOrdinamenti(){
 	$("#downImpegno").click(ordinaDownImpegno);
 	$("#upImpegno").click(ordinaUpImpegno);
 
@@ -153,10 +155,14 @@ function inserimentoAvvenuto(risp) {
 			+ "</td><td class='orario'>"
 			+ risp["orario"]
 			+ "</td><td>"
-			+ "<img class='icona' src='assets/clearIcon.png' alt='clearIcon.png'></td></tr>";
+			+ "<img class='icona ingrandisci' src='assets/touch.png' alt='touch.png'>"
+			+ "</td><td>"
+			+"<img class='icona elimina' src='assets/clearIcon.png' alt='clearIcon.png'></td></tr>";
+
 
 	$("#tablebody").append(str);
-	agganciaFunzioneElimina($("#tablebody:last-child .icona"));
+	agganciaFunzioneElimina($("#tablebody:last-child .elimina"));
+	agganciaFunzioneIngrandisci($("#tablebody:last-child .ingrandisci"));
 }
 
 function scaricaCalendario() {
@@ -199,13 +205,17 @@ function scaricaCalendario() {
 										+ "</td><td class='orario'>"
 										+ risp[x]["orario"]
 										+ "</td><td>"
-										+ "<img class='icona' src='assets/clearIcon.png' alt='clearIcon.png'></td></tr>";
+										+ "<img class='icona ingrandisci' src='assets/touch.png' alt='touch.png'>"
+										+ "</td><td>"
+										+"<img class='icona elimina' src='assets/clearIcon.png' alt='clearIcon.png'></td></tr>";
 							}
 						}
 						$("#tablebody").append(str);
-						agganciaFunzioneElimina(".icona");
+						agganciaFunzioneElimina("#tablebody:last-child .elimina");
+						agganciaFunzioneIngrandisci("#tablebody:last-child .ingrandisci");
 						$("#inserisci").click(controllaInserimento);
 						$("#buttonLogout").click(logout);
+						agganciaOrdinamenti();	
 					});
 }
 
@@ -216,6 +226,10 @@ function logout() {
 
 function agganciaFunzioneElimina(tag) {
 	$(tag).click(eliminaImpegno);
+}
+
+function agganciaFunzioneIngrandisci(tag) {
+	$(tag).click(creaCard);
 }
 
 function eliminaImpegno() {
@@ -291,6 +305,70 @@ function ordinaTabella(index, crescente) {
 			}
 		}
 	}
+}
+
+function creaCard(){	
+	
+	var classe=["card text-white bg-primary mb-3",
+				"card text-white bg-secondary mb-3",
+				"card text-white bg-success mb-3",
+				"card text-white bg-danger mb-3",
+				"card text-white bg-warning mb-3",
+				"card text-white bg-info mb-3",
+				"card bg-light mb-3",
+				"card text-white bg-dark mb-3"];
+	
+	var colore=["blue",
+				"gray",
+				"green",
+				"red",
+				"yellow",
+				"cian",
+				"white",
+				"dark"];
+	
+	var rand=Math.ceil(Math.random() * (colore.length-1));
+	console.log("Random ---> "+rand);
+	
+	var id=$(this).parent().parent().attr("id");
+	var impegno=$("#"+id+ " .impegno").text();
+	var luogo=$("#"+id+ " .luogo").text();
+	var data=$("#"+id+ " .priorita").text();
+	var priorita=$("#"+id+ " .orario").text();
+		
+	var col=$("<div class='col-sm'></div>");
+
+	var card=$("<div class='"+classe[rand]+" myCard'></div>");
+	var cardHeader=$("<div class='card-header'>Impegno</div>");
+	var cardBody=$("<div class='card-body'></div>");	
+	var titolo=$("<h5 class='card-title'>"+impegno+"</h5>");
+	
+	var ul=$("<ul class='list-group list-group-flush'></ul>");
+	var liLuogo=$("<li class='list-group-item "+colore[rand]+"'>"+luogo+"</li>");
+	var liPriorita=$("<li class='list-group-item "+colore[rand]+"'>"+priorita+"</li>");
+	var liData=$("<li class='list-group-item "+colore[rand]+"'>"+data+"</li>");
+	var button=$("<button type='button' class='btn'>Chiudi</button>")
+	
+	ul.append(liLuogo);
+	ul.append(liPriorita);
+	ul.append(liData);
+	
+	cardBody.append(titolo);
+	cardBody.append(ul);
+	cardBody.append(button);
+	
+	card.append(cardHeader);
+	card.append(cardBody);
+	
+	col.append(card);	
+	
+	$("#areaIngrandimento").append(col);
+	
+	button.click(chiudiCard);
+}
+
+function chiudiCard(){
+	$(this).parent().parent().remove();
 }
 
 function ordinaDownImpegno() {

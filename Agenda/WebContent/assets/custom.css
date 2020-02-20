@@ -3,6 +3,41 @@
 	padding: 0 250px;
 }
 
+.myCard{
+	max-width: 18rem;
+}
+
+.blue{
+	background-color: #007bff!important;
+}
+
+.gray{
+	background-color: #6c757d!important;
+}
+
+.green{
+	background-color: #28a745!important;
+}
+
+.red{
+	background-color: #dc3545!important;	
+}
+
+.yellow{
+	background-color: #ffc107!important;
+}
+
+.cian{
+	background-color: #17a2b8!important;
+}
+.white{
+	background-color: #f8f9fa!important;
+}
+
+.dark{
+	background-color: #343a40!important;
+}
+
 .erroreLogin{
 	text-align: center;
 	border-radius:25px;

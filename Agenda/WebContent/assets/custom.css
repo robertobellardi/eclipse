@@ -4,7 +4,11 @@
 }
 
 .myCard{
-	max-width: 18rem;
+	max-width: 30rem;
+}
+
+.mybutton{
+	margin-top: 15px!important;
 }
 
 .blue{

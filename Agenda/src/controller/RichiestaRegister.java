@@ -96,8 +96,10 @@ public class RichiestaRegister extends HttpServlet {
 				System.out.println("Errore chiusura query");
 			}
 		}
-		else
+		else {
 			jsonIm.put("register",false);
+			jsonIm.put("errore","server offline");
+		}
 		
 		response.setContentType("application/json");
 	    response.setCharacterEncoding("UTF-8");

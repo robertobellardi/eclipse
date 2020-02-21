@@ -6,30 +6,44 @@ window.onload = function() {
 }
 
 function checkLogin() {
+	
+	pulisciErroreCampi();
+	
 	var mail = $("#mail").val();
 	var password = $("#password").val();
+	var check=true;
 
 	console.log(mail + " --- " + password);
 
-	var ajax = $.post("richiestaLogin", {
-		"mail" : mail,
-		"password" : password
-	}, function(ajaxObj, status) {
-		console.log("status richiesta login: " + status);
-	}).fail(function(ajaxO, ajaxStatus, ajaxObj) {
-		console.log("Errore richiesta login");
-	}).done(function(ajaxO, ajaxStatus, ajaxObj) {
-		if (ajaxO["login"]) {
-			sessionStorage.setItem("id", ajaxO["id"])
-			agganciaFunzioni();
-		} else {
-			agganciaErroreLogin("formLogin", ajaxO["errore"]);
-		}
-	});
+	if (mail === "") {
+		erroreCampi("#mail");
+		check = false;
+	}
+	if (password === "") {
+		erroreCampi("#password");
+		check = false;
+	}
+		
+	if(check){	
+		var ajax = $.post("richiestaLogin", {
+			"mail" : mail,
+			"password" : password
+		}, function(ajaxObj, status) {
+			console.log("status richiesta login: " + status);
+		}).fail(function(ajaxO, ajaxStatus, ajaxObj) {
+			console.log("Errore richiesta login");
+		}).done(function(ajaxO, ajaxStatus, ajaxObj) {
+			if (ajaxO["login"]) {
+				sessionStorage.setItem("id", ajaxO["id"])
+				agganciaFunzioni();
+			} else {
+				agganciaErroreLogin("formLogin", ajaxO["errore"]);
+			}
+		});
+	}		
 }
 
 function getRegister() {
-
 	var div = $("<div class='form-group'></div>");
 	var label = $("<label for='re-password'>Reinserisci la password</label>");
 	var input = $("<input type='password' class='form-control' id='repassword' placeholder='Conferma la password'></input>");
@@ -42,7 +56,9 @@ function getRegister() {
 	$("#buttonRegister").click(checkRegister);
 }
 
-function checkRegister() {
+function checkRegister() {	
+	pulisciErroreCampi();
+	
 	var mail = $("#mail").val();
 	var password = $("#password").val();
 	var repassword = $("#repassword").val();
@@ -159,14 +175,12 @@ function inserimentoAvvenuto(risp) {
 			+ "</td><td>"
 			+"<img class='icona elimina' src='assets/clearIcon.png' alt='clearIcon.png'></td></tr>";
 
-
 	$("#tablebody").append(str);
 	agganciaFunzioneElimina($("#tablebody:last-child .elimina"));
 	agganciaFunzioneIngrandisci($("#tablebody:last-child .ingrandisci"));
 }
 
 function scaricaCalendario() {
-
 	var id = sessionStorage.getItem("id");
 	console.log("Id è ---> " + id);
 
@@ -265,7 +279,6 @@ function rimuoviImpegno(id) {
 }
 
 function checkDate(dateTime) {
-
 	var anno = dateTime[0] + dateTime[1] + dateTime[2] + dateTime[3];
 	console.log(anno);
 	var mese = dateTime[5] + dateTime[6];
@@ -281,7 +294,6 @@ function checkDate(dateTime) {
 		return true
 	else
 		return false;
-
 }
 
 function ordinaTabella(index, crescente) {
@@ -307,8 +319,7 @@ function ordinaTabella(index, crescente) {
 	}
 }
 
-function creaCard(){	
-	
+function creaCard(){		
 	var classe=["card text-white bg-primary mb-3",
 				"card text-white bg-secondary mb-3",
 				"card text-white bg-success mb-3",
@@ -327,6 +338,15 @@ function creaCard(){
 				"white",
 				"dark"];
 	
+	var buttoncolore=["btn-warning",
+		"btn-light",
+		"btn-primary",
+		"btn-info",
+		"btn-success",
+		"btn-danger",
+		"btn-dark",
+		"btn-secondary"];
+	
 	var rand=Math.ceil(Math.random() * (colore.length-1));
 	console.log("Random ---> "+rand);
 	
@@ -336,25 +356,49 @@ function creaCard(){
 	var data=$("#"+id+ " .priorita").text();
 	var priorita=$("#"+id+ " .orario").text();
 		
-	var col=$("<div class='col-sm'></div>");
+	var col=$("<div class='col-4'></div>");
 
 	var card=$("<div class='"+classe[rand]+" myCard'></div>");
+	
 	var cardHeader=$("<div class='card-header'>Impegno</div>");
+	
 	var cardBody=$("<div class='card-body'></div>");	
+	
 	var titolo=$("<h5 class='card-title'>"+impegno+"</h5>");
 	
-	var ul=$("<ul class='list-group list-group-flush'></ul>");
-	var liLuogo=$("<li class='list-group-item "+colore[rand]+"'>"+luogo+"</li>");
-	var liPriorita=$("<li class='list-group-item "+colore[rand]+"'>"+priorita+"</li>");
-	var liData=$("<li class='list-group-item "+colore[rand]+"'>"+data+"</li>");
-	var button=$("<button type='button' class='btn'>Chiudi</button>")
+	var row=$("<div class='row'></div>");
+	var colsx=$("<div class='col-6'></div>");
+	var coldx=$("<div class='col-6'></div>");
 	
-	ul.append(liLuogo);
-	ul.append(liPriorita);
-	ul.append(liData);
+	var ulsx=$("<ul class='list-group list-group-flush'></ul>");
+	var liLuogosx=$("<li class='list-group-item "+colore[rand]+"'>Impegno:</li>");
+	var liPrioritasx=$("<li class='list-group-item "+colore[rand]+"'>Luogo:</li>");
+	var liDatasx=$("<li class='list-group-item "+colore[rand]+"'>Data:</li>");
+	
+	var uldx=$("<ul class='list-group list-group-flush'></ul>");
+	var liLuogodx=$("<li class='list-group-item "+colore[rand]+"'>"+luogo+"</li>");
+	var liPrioritadx=$("<li class='list-group-item "+colore[rand]+"'>"+priorita+"</li>");
+	var liDatadx=$("<li class='list-group-item "+colore[rand]+"'>"+data+"</li>");
+	
+	var button=$("<button type='button' class='btn mybutton "+buttoncolore[rand]+"'>Chiudi</button>")
+	
+
+	
+	ulsx.append(liLuogosx);
+	ulsx.append(liPrioritasx);
+	ulsx.append(liDatasx);
+	
+	uldx.append(liLuogodx);
+	uldx.append(liPrioritadx);
+	uldx.append(liDatadx);
+	
+	colsx.append(ulsx);
+	coldx.append(uldx);
+	row.append(colsx);
+	row.append(coldx);
 	
 	cardBody.append(titolo);
-	cardBody.append(ul);
+	cardBody.append(row);
 	cardBody.append(button);
 	
 	card.append(cardHeader);
@@ -368,7 +412,9 @@ function creaCard(){
 }
 
 function chiudiCard(){
-	$(this).parent().parent().remove();
+	$(this).parent().parent().fadeOut(1000);
+	setTimeout(function(){$(this).parent().parent().remove();},1000);
+	
 }
 
 function ordinaDownImpegno() {

@@ -80,8 +80,10 @@ public class RichiestaLogin extends HttpServlet {
 				System.out.println("Errore chiusura query");
 			}
 		}
-		else
+		else {
 			jsonIm.put("login",false);
+			jsonIm.put("errore","server offline");
+		}
 		
 		response.setContentType("application/json");
 	    response.setCharacterEncoding("UTF-8");

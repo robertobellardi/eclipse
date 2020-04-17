@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <modules>
-  <module moduleId="org.eclipse.jst.jee.server:Prj14_Biblioteca" serverId="Tomc at localhost"/>
-  <module moduleId="org.eclipse.jst.j2ee.server:prj01-maven-prova" serverId="Tomc at localhost"/>
-  <module moduleId="org.eclipse.jst.jee.server:Agenda" serverId="Tomc at localhost"/>
+  <module moduleId="org.eclipse.jst.jee.server:Prj06_GestioneDIpendenti" serverId="Tomcat v9.0 Server at localhost"/>
+  <module moduleId="org.eclipse.jst.jee.server:Task" serverId="Tomcat v9.0 Server at localhost"/>
+  <module moduleId="org.eclipse.jst.jee.server:Agenda" serverId="Tomcat v9.0 Server at localhost"/>
+  <module moduleId="org.eclipse.jst.jee.server:magazzino" serverId="Tomcat v9.0 Server at localhost"/>
 </modules>

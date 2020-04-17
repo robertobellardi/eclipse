@@ -1,0 +1,87 @@
+package com.bellardi.agenaSpring.controllers;
+
+import java.time.LocalDate;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.bellardi.agenaSpring.entities.Appuntamenti;
+import com.bellardi.agenaSpring.entities.Utente;
+import com.bellardi.agenaSpring.services.AppuntamentiService;
+import com.bellardi.agenaSpring.services.LoginService;
+
+
+@Controller
+public class LoginController {
+
+	@Autowired
+	private LoginService logService;
+	
+	@Autowired
+	private AppuntamentiService appService;
+	
+	private Utente utLoggato;
+		
+	@RequestMapping(value= {"/","home"})
+	public String mostraHome() {
+		return "index";	
+	}
+	
+	@RequestMapping("/checkLogin")
+	public String checkLog(@ModelAttribute("utente") Utente u, ModelMap map) {
+		List<Utente> utenti=logService.trovaTutti();
+		
+		for (Utente utente : utenti) {
+			if(utente.getNome().equals(u.getNome()) && utente.getCognome().equals(u.getCognome())) {
+				if(utente.getPassword().equals(u.getPassword())) {
+					this.utLoggato = utente;
+					return getformAppuntamenti(map);
+				}else
+					map.addAttribute("messaggio", "Password errata");
+			}
+		}		
+		map.addAttribute("messaggio", "Campi Nome e Cognome errati");		
+		return "index";	
+	}
+	
+	@RequestMapping("/formAppuntamenti")
+	public String getformAppuntamenti(ModelMap map) {
+		LocalDate dataOdierna = LocalDate.now(); 
+		
+		List<Appuntamenti> appi=appService.trovaTutti();
+		
+		for (Appuntamenti appo : appi) {
+			System.out.println(appo.getData() +" --- " + dataOdierna);
+			if(appo.getData().compareToIgnoreCase(dataOdierna.toString())<=0)
+				appi.remove(appo);
+			
+		}
+		
+		
+		
+		map.addAttribute("appuntamenti", appi);	
+		map.addAttribute("utente", this.utLoggato);		
+		return "listaAppuntamenti";	
+	}
+	
+	@RequestMapping("/inserisciAppuntamento")
+	public String inserisciAppuntamento(@ModelAttribute("appuntamento") Appuntamenti a, ModelMap map) {
+		
+		System.out.println("ENTRO");
+		
+		if(appService.salvaAppuntamento(a)!=null) {
+			map.addAttribute("messaggio", "Appuntamento salvato");
+			map.addAttribute("alert", "alert-success");
+		}
+		else {
+			map.addAttribute("messaggio", "Errore appuntamento non salvato");
+			map.addAttribute("alert", "alert-danger");
+		}
+			
+		return getformAppuntamenti(map);	
+	}
+}

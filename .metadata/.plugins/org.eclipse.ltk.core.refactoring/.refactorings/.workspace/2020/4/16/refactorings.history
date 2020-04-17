@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Delete resource &apos;agenaSpring/src/main/webapp/WEB-INF/assets&apos;" deleteContents="false" description="Delete resource &apos;agenaSpring/src/main/webapp/WEB-INF/assets&apos;" element1="/agenaSpring/src/main/webapp/WEB-INF/assets" flags="7" id="org.eclipse.ltk.core.refactoring.delete.resources" resources="1" stamp="1587028358866"/>
+</session>

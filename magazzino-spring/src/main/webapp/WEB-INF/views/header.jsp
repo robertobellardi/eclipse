@@ -33,6 +33,7 @@ body {
 	min-height: 75rem;
 	padding-top: 4.5rem;
 }
+td img {max-width:2rem}
 </style>
 
 </head>

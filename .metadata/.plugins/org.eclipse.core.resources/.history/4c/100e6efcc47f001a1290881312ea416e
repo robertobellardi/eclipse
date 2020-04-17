@@ -1,0 +1,9 @@
+package com.bellardi.agenaSpring.repositories;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.bellardi.serieTV.entities.Genere;
+
+public interface AppuntamentiRepository extends JpaRepository<Genere, Integer> {
+
+}

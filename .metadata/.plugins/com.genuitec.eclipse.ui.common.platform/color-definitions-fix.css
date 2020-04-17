@@ -346,6 +346,16 @@ IEclipsePreferences#com-dubture-twig-ui {
 		'editorColorLineComment=#C7DD0C | null | null | false | null | null'
 		'editorColorNumber=#7FB347 | null | null | null | null | null'
 }
+IEclipsePreferences#com-genuitec-eclipse-sqlexplorer {
+	preferences:
+		'sql_columns=171,115,255'
+		'sql_default=210,215,218'
+		'sql_keyword=141,203,226'
+		'sql_multi_line_comment=199,221,12'
+		'sql_single_line_comment=199,221,12'
+		'sql_string=255,198,0'
+		'sql_table=49,132,255'
+}
 IEclipsePreferences#com-github-rustdt-ide-ui {
 	preferences:
 		'editor.coloring2.number#dark#=127,179,71'
@@ -2047,6 +2057,9 @@ IEclipsePreferences#org-eclipse-ui-editors {
 		'AbstractTextEditor.Color.SelectionBackground.SystemDefault=false'
 		'AbstractTextEditor.Color.SelectionForeground=146,157,165'
 		'AbstractTextEditor.Color.SelectionForeground.SystemDefault=false'
+		'LSP4EReadOccurrenceIndicationColor=26,95,140'
+		'LSP4ETextOccurrenceIndicationColor=26,95,140'
+		'LSP4EWriteOccurrenceIndicationColor=26,95,140'
 		'PHPReadOccurrenceIndicationColor=65,65,4'
 		'PHPWriteOccurrenceIndicationColor=65,65,4'
 		'TextOccurrenceIndicationColor=27, 98, 145'
@@ -2290,6 +2303,10 @@ IEclipsePreferences#org-eclipse-ui-workbench {
 		'org.eclipse.wst.jsdt.ui.typeArgumentHighlighting=255,255,0'
 		'org.eclipse.wst.jsdt.ui.typeParameterHighlighting=247,173,123'
 		'org.eclipse.wst.jsdt.ui.typeVariableDeclarationHighlighting=247,173,123'
+		'org.springframework.ide.eclipse.boot.dash.AltTextDecorColor=173,216,230'
+		'org.springframework.ide.eclipse.boot.dash.MutedTextDecorColor=205,210,214'
+		'org.springframework.ide.eclipse.boot.dash.TextDecorColor=144,238,144'
+		'org.springframework.tooling.ls.eclipse.commons.STS4BootMarkerIndicationColor=54,81,25'
 		'piBorder=0,254,254'
 		'tagAttributeName=255,0,255'
 		'tagAttributeValue=212,0,255'

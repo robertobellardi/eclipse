@@ -1,0 +1,14 @@
+package com.bellardi.agenaSpring.repositories;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+
+import com.bellardi.agenaSpring.entities.Appuntamenti;
+
+public interface AppuntamentiRepository extends JpaRepository<Appuntamenti, Integer> {
+
+	@Query("SELECT prodotto.id, sum(quantita) FROM Magazzino2 group by prodotto.id")
+	public List<Object[]> listaAppuntamenti();
+}

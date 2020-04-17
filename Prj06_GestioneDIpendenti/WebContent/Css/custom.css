@@ -1,0 +1,19 @@
+h1{
+	color: red;
+}
+
+#top{
+	width: 100%;
+	height: 50px;
+	background-color: deepskyblue;
+}
+
+#top a{
+	color: white;
+}
+
+#bottom{
+	width: 100%;
+	height: 50px;
+	background-color: deepskyblue;
+}

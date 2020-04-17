@@ -1,0 +1,81 @@
+package com.bellardi.agenaSpring.entities;
+
+import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
+@Entity
+@Table(name = "appuntamenti")
+public class Appuntamenti {
+
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	
+	@OneToOne
+	private Utente utente;
+	
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date data;
+	
+	private String oraInizio;
+	
+	private String OraFine;	
+
+	private String argomento;
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public Utente getUtente() {
+		return utente;
+	}
+
+	public void setUtente(Utente utente) {
+		this.utente = utente;
+	}
+
+	public Date getData() {
+		return data;
+	}
+
+	public void setData(Date data) {
+		this.data = data;
+	}
+
+	public String getOraInizio() {
+		return oraInizio;
+	}
+
+	public void setOraInizio(String oraInizio) {
+		this.oraInizio = oraInizio;
+	}
+
+	public String getOraFine() {
+		return OraFine;
+	}
+
+	public void setOraFine(String oraFine) {
+		OraFine = oraFine;
+	}
+
+	public String getArgomento() {
+		return argomento;
+	}
+
+	public void setArgomento(String argomento) {
+		this.argomento = argomento;
+	}
+}

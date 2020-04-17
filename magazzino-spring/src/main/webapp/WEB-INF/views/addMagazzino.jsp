@@ -1,8 +1,10 @@
 <%@ include file="header.jsp" %>
 
+<c:if test="${messaggio != null}">
 <div class="alert alert-success" role="alert">
   ${messaggio}
 </div>
+</c:if>
 
 	<form method="post" action="aggiungiMagazzino">
 
@@ -10,8 +12,17 @@
 		
 		<label for="idProdotto" class="col-sm-1 col-form-label">Prodotto</label>
 		<div class="col-sm-4">
-			<input class="form-control" type="text" id="idProdotto"
-				name="idProdotto">
+<!-- 			<input class="form-control" type="text" id="idProdotto"
+				name="idProdotto"> -->
+				
+			<select class="form-control" name="idProdotto">
+				
+				<c:forEach items="${prodotti}" var="prodotto">
+				<option value="${prodotto.id}">${prodotto.descrizione}</option>
+				</c:forEach>
+			
+			</select>
+				
 		</div>
 		
 		<label for="quantita" class="col-sm-1 col-form-label">quantità</label>

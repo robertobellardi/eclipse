@@ -1,0 +1,27 @@
+package com.bellardi.agenaSpring.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.bellardi.agenaSpring.entities.Appuntamenti;
+import com.bellardi.serieTV.entities.Genere;
+import com.bellardi.serieTV.repositories.GenereRepository;
+
+
+@Service
+public class AppuntamentiService implements IAppuntamentiService {
+
+	@Override
+	public Appuntamenti salvaSerie(Appuntamenti a) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<Appuntamenti> trovaTutti() {
+		// TODO Auto-generated method stub
+		return null;
+	}	
+}

@@ -1,0 +1,21 @@
+package com.bellardi.agenaSpring.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.bellardi.agenaSpring.entities.Utente;
+import com.bellardi.agenaSpring.repositories.UtenteRepository;
+
+@Service
+public class LoginService implements ILoginService {
+
+	@Autowired
+	private LoginRepository repo;
+
+	@Override
+	public List<Utente> trovaTutti() {
+		return repo.findAll();
+	}	
+}

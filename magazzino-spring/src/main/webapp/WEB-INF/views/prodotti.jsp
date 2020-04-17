@@ -5,9 +5,11 @@
 <a href="addProdotti" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Aggiungi Prodotto</a>
 <a href="addMagazzino" class="btn btn-secondary btn-lg active" role="button" aria-pressed="true">Aggiungi magazzino</a>
 
+<c:if test="${messaggio != null}">
 <div class="alert alert-success" role="alert">
   ${messaggio}
 </div>
+</c:if>
 
 	<table class="table table-hover">
 		<tr>
@@ -22,10 +24,10 @@
 				<td>${prod.descrizione}</td>
 				<td>${prod.prezzo}</td>
 				<td>
-					<a href="deleteProdotto?id=${prod.id}"><img class="" src="../img/trash.png" alt="elimina"></a>
+					<a href="deleteProdotto?id=${prod.id}"><img class="" src="../magazzino/img/trash.png" alt="elimina"></a>
 				</td>
 				<td>
-					<a href="updateProdotto?id=${prod.id}"><span class="glyphicon glyphicon-search" aria-hidden="true"></span><img class="" src="../img/pen.png" alt="modifica"></a>
+					<a href="updateProdotto?id=${prod.id}"><img class="" src="../magazzino/img/pen.png" alt="modifica"></a>
 				</td>
 			</tr>
 

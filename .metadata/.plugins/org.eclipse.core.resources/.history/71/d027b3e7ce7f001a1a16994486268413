@@ -1,0 +1,24 @@
+<%@ include file="header.jsp" %>
+<div class="table-responsive">
+    <table class="table table-hover">
+        <thead>
+            <tr>
+                <th scope="col">Impegno</th>
+                <th scope="col">Data</th>
+                <th scope="col">Ora di inizio</th>
+                <th scope="col">Ora di fine</th>
+            </tr>
+        </thead>
+        <tbody>
+            <c:forEach items="${app}" var="film">
+                <tr>
+                    <td scope="row">${app.getArgomento()}</td>
+                    <td>${film.getData()}</td>
+                    <td>${film.getOraInizio()}</td>
+                    <td>${film.getOraFine()}</td>                                        
+                </tr>dsfb
+            </c:forEach>
+        </tbody>
+    </table>
+</div>
+<%@ include file="footer.jsp" %>

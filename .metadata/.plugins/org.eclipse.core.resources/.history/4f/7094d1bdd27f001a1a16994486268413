@@ -1,0 +1,15 @@
+package com.bellardi.agenaSpring.repositories;
+
+import java.util.List;
+
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import com.bellardi.agenaSpring.entities.Appuntamenti;
+
+public interface AppuntamentiRepository extends JpaRepository<Appuntamenti, Integer> {
+
+	@Query("SELECT a.argomento,a.data,a.oraInizio.a-oraFine from appuntamenti a join utente u on a.idUtente=u.id and u.id=:#{#idUtente}")
+	public List<Appuntamenti> listaAppuntamenti(@Param("idUtente")Integer idUtente);
+}

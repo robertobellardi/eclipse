@@ -1,0 +1,16 @@
+127.0.0.1 - - [09/Apr/2020:09:52:13 +0200] "GET / HTTP/1.1" 404 1074
+0:0:0:0:0:0:0:1 - - [09/Apr/2020:09:52:14 +0200] "GET /magazzino/ HTTP/1.1" 200 1902
+0:0:0:0:0:0:0:1 - - [09/Apr/2020:09:52:14 +0200] "GET /magazzino/assets/JQuery.js HTTP/1.1" 200 290960
+0:0:0:0:0:0:0:1 - - [09/Apr/2020:09:52:14 +0200] "GET /magazzino/assets/javascript.js HTTP/1.1" 200 5574
+0:0:0:0:0:0:0:1 - - [09/Apr/2020:09:52:14 +0200] "GET /magazzino/assets/custom.css HTTP/1.1" 200 74
+0:0:0:0:0:0:0:1 - - [09/Apr/2020:09:52:42 +0200] "GET /magazzino/ HTTP/1.1" 200 1902
+0:0:0:0:0:0:0:1 - - [09/Apr/2020:09:52:42 +0200] "GET /magazzino/assets/JQuery.js HTTP/1.1" 200 290960
+0:0:0:0:0:0:0:1 - - [09/Apr/2020:09:52:42 +0200] "GET /magazzino/assets/javascript.js HTTP/1.1" 200 5574
+0:0:0:0:0:0:0:1 - - [09/Apr/2020:09:52:42 +0200] "GET /magazzino/assets/custom.css HTTP/1.1" 200 74
+0:0:0:0:0:0:0:1 - - [09/Apr/2020:09:52:42 +0200] "GET /favicon.ico HTTP/1.1" 404 1085
+0:0:0:0:0:0:0:1 - - [09/Apr/2020:09:53:28 +0200] "GET /magazzino/ HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [09/Apr/2020:09:54:50 +0200] "GET /magazzino/ HTTP/1.1" 304 -
+0:0:0:0:0:0:0:1 - - [09/Apr/2020:09:55:01 +0200] "POST /magazzino/scaricaProdotti HTTP/1.1" 200 184
+0:0:0:0:0:0:0:1 - - [09/Apr/2020:09:55:06 +0200] "POST /magazzino/scaricaMagazzino HTTP/1.1" 200 312
+0:0:0:0:0:0:0:1 - - [09/Apr/2020:09:55:07 +0200] "POST /magazzino/scaricaRapporto HTTP/1.1" 200 171
+0:0:0:0:0:0:0:1 - - [09/Apr/2020:09:55:08 +0200] "POST /magazzino/scaricaProdotti HTTP/1.1" 200 184

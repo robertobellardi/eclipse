@@ -1,10 +1,11 @@
 <%@ include file="header.jsp" %>
 
 <h1>Aggiorna magazzino</h1>
+<c:if test="${messaggio != null}">
 <div class="alert alert-success" role="alert">
   ${messaggio}
 </div>
-
+</c:if>
 	<form method="post" action="modificaMagazzino">
 
 	<div class="form-group row">

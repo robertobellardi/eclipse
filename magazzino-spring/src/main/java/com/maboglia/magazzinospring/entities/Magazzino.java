@@ -17,50 +17,45 @@ public class Magazzino {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private int id;
 
 	@Column(name = "idprodotto")
-	private Integer idProdotto;
+	private int idProdotto;
 	
-	private Integer quantita;
+	private int quantita;
 	
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date data;
 	
-	public Integer getId() {
+	public int getId() {
 		return id;
-	}	
-	
-	public Integer getIdProdotto() {
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public int getIdProdotto() {
 		return idProdotto;
 	}
-
-	public void setIdProdotto(Integer idProdotto) {
+	public void setIdProdotto(int idProdotto) {
 		this.idProdotto = idProdotto;
 	}
-
-	public Integer getQuantita() {
+	public int getQuantita() {
 		return quantita;
 	}
-
-	public void setQuantita(Integer quantita) {
+	public void setQuantita(int quantita) {
 		this.quantita = quantita;
 	}
-
 	public Date getData() {
 		return data;
 	}
-
 	public void setData(Date data) {
 		this.data = data;
 	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
 	@Override
 	public String toString() {
 		return "Magazzino [id=" + id + ", idProdotto=" + idProdotto + ", quantita=" + quantita + ", data=" + data + "]";
 	}
+
+	
+	
 }

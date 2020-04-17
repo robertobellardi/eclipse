@@ -1,0 +1,27 @@
+package com.bellardi.agenaSpring.services;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.bellardi.agenaSpring.entities.Appuntamenti;
+import com.bellardi.agenaSpring.repositories.AppuntamentiRepository;
+import com.bellardi.agenaSpring.repositories.LoginRepository;
+
+@Service
+public class AppuntamentiService implements IAppuntamentiService {
+	
+	@Autowired
+	private AppuntamentiRepository repo;
+
+	@Override
+	public Appuntamenti salvaSerie(Appuntamenti a) {
+		return repo.save(a);
+	}
+
+	@Override
+	public List<Appuntamenti> trovaTutti() {
+		return repo.findAll();
+	}	
+}

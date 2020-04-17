@@ -26,7 +26,8 @@ public class MagazzinoService implements IMagazzinoService {
 
 	@Override
 	public Magazzino trovaUno(int id) {
-		return repo.getOne(id);
+//		return repo.getOne(id);
+		return repo.findById(id).get();
 	}
 
 	@Override

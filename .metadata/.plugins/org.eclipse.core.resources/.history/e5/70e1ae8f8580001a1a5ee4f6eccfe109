@@ -1,0 +1,111 @@
+package com.bellardi.agenaSpring.controllers;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+import com.bellardi.agenaSpring.entities.Appuntamenti;
+import com.bellardi.agenaSpring.entities.Utente;
+import com.bellardi.agenaSpring.services.AppuntamentiService;
+import com.bellardi.agenaSpring.services.LoginService;
+
+
+@Controller
+public class LoginController {
+
+	@Autowired
+	private LoginService logService;
+	
+	@Autowired
+	private AppuntamentiService appService;
+	
+	private Utente utLoggato;
+		
+	@RequestMapping(value= {"/","home"})
+	public String mostraHome() {
+		return "index";	
+	}
+	
+	@RequestMapping("/checkLogin")
+	public String checkLog(@ModelAttribute("utente") Utente u, ModelMap map) {
+		List<Utente> utenti=logService.trovaTutti();
+		
+		for (Utente utente : utenti) {
+			if(utente.getNome().equals(u.getNome()) && utente.getCognome().equals(u.getCognome())) {
+				if(utente.getPassword().equals(u.getPassword())) {
+					this.utLoggato = utente;
+					return getformAppuntamenti(map);
+				}else
+					map.addAttribute("messaggio", "Password errata");
+			}
+		}		
+		map.addAttribute("messaggio", "Campi Nome e Cognome errati");		
+		return "index";	
+	}
+	
+	@RequestMapping("/formAppuntamenti")
+	public String getformAppuntamenti(ModelMap map) {
+		map.addAttribute("appuntamenti", appService.trovaTutti());	
+		map.addAttribute("utente", this.utLoggato);		
+		return "listaAppuntamenti";	
+	}
+	
+	@RequestMapping("/inserisciAppuntamento")
+	public String inserisciAppuntamento(@ModelAttribute("appuntamento") Appuntamenti a, ModelMap map) {
+		appService.salvaAppuntamento(a);	
+		return "listaAppuntamenti";	
+	}
+	
+	
+	
+	
+	
+	/*	
+	@RequestMapping(value= {"/","home"})
+	public String mostraHome() {
+		return "index";	
+	}
+	
+	@RequestMapping("/inserisciSerie")
+	public String mostraForm(ModelMap map) {
+		List<Genere> generi = genereService.trovaTutti();
+		map.addAttribute("generi", generi);
+		
+		return "inserisciSerie";	
+	}	
+
+	@RequestMapping("/elencoSerie")
+	public String mostraSerie(ModelMap map) {
+		List<Film> lista = service.trovaTutti();
+		map.addAttribute("lista", lista);
+		
+		return "listaSerie";
+	}
+	
+	@RequestMapping("/elencoGenere")
+	public String mostraGeneri(ModelMap map) {
+		List<Genere> generi = genereService.trovaTutti();
+		map.addAttribute("generi", generi);
+		
+		return "listaGeneri";
+	}
+	
+	@RequestMapping("/aggiungiSerie")
+	public String aggiungiSerie(@ModelAttribute("film") Film f, ModelMap map) {
+		service.salvaSerie(f);
+				
+		return mostraSerie(map);
+	}
+	
+	@RequestMapping("/visualizzaSerie")
+	public String visualizzaSerie(@RequestParam("id") int id, ModelMap map) {
+		Film f=service.trovaUno(id);
+		map.addAttribute("film", f);
+		
+		return "visualizzaSerie";
+	}*/
+}

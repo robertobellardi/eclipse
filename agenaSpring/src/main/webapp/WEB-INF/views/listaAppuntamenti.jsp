@@ -65,7 +65,7 @@
             </select>
         </div>
     </c:if>
-    <button type="submit" class="btn btn-dark">Log in</button>
+    <button type="submit" class="btn btn-dark">Inserisci appuntamento</button>
 </form>
 
 

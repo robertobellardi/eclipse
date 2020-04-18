@@ -1,6 +1,7 @@
 package com.bellardi.agenaSpring.controllers;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +14,6 @@ import com.bellardi.agenaSpring.entities.Appuntamenti;
 import com.bellardi.agenaSpring.entities.Utente;
 import com.bellardi.agenaSpring.services.AppuntamentiService;
 import com.bellardi.agenaSpring.services.LoginService;
-
 
 @Controller
 public class AgendaController {
@@ -53,15 +53,31 @@ public class AgendaController {
 		LocalDate dataOdierna = LocalDate.now(); 
 		
 		List<Appuntamenti> appi=appService.trovaTutti();
+		List<Appuntamenti> appiOdierni=new ArrayList<>();
 
 		for (int i = 0; i< appi.size();i++) {
-			System.out.println(appi.get(i).getData() +" --- " + dataOdierna);
-			if(appi.get(i).getData().compareToIgnoreCase(dataOdierna.toString())<=0)
-				appi.remove(i);
-			
-		}		
+			if(appi.get(i).getData().equals(dataOdierna.toString())) {
+				appiOdierni.add(appi.get(i));
+			}
+		}
 		
-		map.addAttribute("appuntamenti", appi);	
+		for (int i = 0; i< appiOdierni.size();i++) {
+			System.out.println(appiOdierni.get(i).getArgomento());
+		}
+		
+		Appuntamenti tmp=null;
+		
+		for (int j = 0; j< appiOdierni.size();j++) {
+			for (int i = 0; i< appiOdierni.size()-1;i++) {
+				if(appiOdierni.get(i).getOraInizio().compareToIgnoreCase(appiOdierni.get(i+1).getOraInizio()) > 0) {
+					tmp=appiOdierni.get(i+1);
+					appiOdierni.set(i+1, appiOdierni.get(i));
+					appiOdierni.set(i, tmp);					
+				}
+			}
+		}
+		
+		map.addAttribute("appuntamenti", appiOdierni);	
 		map.addAttribute("utente", this.utLoggato);		
 		return "listaAppuntamenti";	
 	}
@@ -83,7 +99,7 @@ public class AgendaController {
 					else {
 						if(a.getOraInizio().compareToIgnoreCase(appi.get(i).getOraInizio()) > 0 && a.getOraInizio().compareToIgnoreCase(appi.get(i).getOraFine()) < 0 )
 							sovrapposizione=true;
-					}
+						}
 				}
 			}				
 			
@@ -100,11 +116,7 @@ public class AgendaController {
 		else {
 			map.addAttribute("messaggio", "Errore appuntamento non salvato");
 			map.addAttribute("alert", "alert-danger");
-		}
-		
-
-		
-			
+		}			
 		return getformAppuntamenti(map);	
 	}
 	

@@ -48,7 +48,6 @@ public class AgendaController {
 		return "index";	
 	}
 	
-	@RequestMapping("/formAppuntamenti")
 	public String getformAppuntamenti(ModelMap map) {
 		LocalDate dataOdierna = LocalDate.now(); 
 		

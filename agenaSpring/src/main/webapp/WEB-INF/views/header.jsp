@@ -26,21 +26,5 @@
     aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse" id="navbarNav">
-    <ul class="navbar-nav">
-      <li class="nav-item">
-        <a class="nav-link" href="rest/elencoSerie">Rest elenco serie</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="rest/elencoGenere">Rest Elenco genere</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="rest/aggiungiSerie">Rest aggiungi serie</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="rest/visualizzaSerie">Rest visualizza serie</a>
-      </li>
-    </ul>
-  </div>
 </nav>
 <body>

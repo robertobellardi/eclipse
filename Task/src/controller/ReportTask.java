@@ -16,7 +16,6 @@ public class ReportTask extends HttpServlet {
 	TaskController tc;
 	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		if(request.getSession().getAttribute("TaskList")==null) {
 			tc=new TaskController();
 			request.getSession().setAttribute("TaskList",tc);
@@ -25,11 +24,9 @@ public class ReportTask extends HttpServlet {
 		
 		if(tc!=null) {	
 			StringBuilder sb=new StringBuilder();
-			sb.append("<table><tr><th>oggetto</th><th>categoria</th></tr>");
 			for(String[] as:tc.getAllTask()) {
-				sb.append("<tr><td>"+as[0]+"</td><td>"+as[1]+"</td></tr>");
+				sb.append("<h1>"+as[0]+"-----"+as[1]+"</h1>");
 			}
-			sb.append("</table>");
 			response.getWriter().append(sb.toString());
 		}
 		else

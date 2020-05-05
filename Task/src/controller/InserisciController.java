@@ -1,6 +1,8 @@
 package controller;
 
 import java.io.IOException;
+import java.lang.ProcessBuilder.Redirect;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,9 +30,7 @@ public class InserisciController extends HttpServlet {
 			if(tc.addTask(request.getParameter("categoria"),request.getParameter("task")))
 				response.getWriter().append("Inserito");
 			else
-				response.getWriter().append("Non inserito");
-						
-			response.sendRedirect("index.html");
+				response.getWriter().append("Non inserito");			
 		}
 	
 	}
